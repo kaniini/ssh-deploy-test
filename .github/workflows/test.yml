@@ -2,6 +2,8 @@ name: test
 
 on:
   push:
+    tags:
+      - 'pkgconf-*'
 
 jobs:
   publish:
@@ -19,11 +21,10 @@ jobs:
         apk update
         apk add kyua atf build-base autoconf automake libtool xz gzip openssh-client
 
-    - name: Build
+    - name: Bootstrap autotools
       run: |
         sh autogen.sh
         ./configure
-        make -j$(nproc)
 
     - name: Run tests and generate dist tarballs
       run: |
